@@ -1545,17 +1545,17 @@ function renderBrief(brief, evalScores) {
         <button class="regen-btn">↻ Regenerate</button>
       </div>
       <div class="feature-row header-row">
-        <div>#</div><div>Feature</div><div>Score</div><div>Effort</div><div>Impact</div><div>Phase</div>
+        <div>#</div><div>Feature</div><div>ICE</div><div>Ease</div><div>Impact</div><div>Phase</div>
       </div>
-      ${(product.features||[]).map((f,i)=>`
+      ${(product.core_features||[]).map((f,i)=>`
         <div class="feature-row">
           <div class="feat-id">${String(i+1).padStart(2,'0')}</div>
           <div>
             <div class="feat-name">${f.name}</div>
             <div class="feat-story">${f.user_story||''}</div>
           </div>
-          <div class="feat-score" style="color:${(f.rice_score||0)>=50?'var(--green)':f.rice_score>=25?'var(--amber)':'var(--muted)'}">${f.rice_score||'—'}</div>
-          <div class="feat-num">${f.effort||'—'}</div>
+          <div class="feat-score" style="color:${(f.ice_score||0)>=50?'var(--green)':f.ice_score>=150?'var(--amber)':'var(--muted)'}">${f.ice_score||'—'}</div>
+          <div class="feat-num">${f.ease||'—'}</div>
           <div class="feat-num">${f.impact||'—'}</div>
           <div><span class="phase-badge ${f.phase==='MVP'?'phase-mvp':'phase-v2'}">${f.phase||'—'}</span></div>
         </div>`).join('')}
