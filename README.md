@@ -1,11 +1,4 @@
----
-title: Founderos
-emoji: 💻
-colorFrom: blue
-colorTo: yellow
-sdk: docker
-pinned: false
----
+
 # FounderOS — Multi-Agent AI Startup Platform
 
 > Describe your startup idea in 2 sentences. Three specialized AI agents will analyze the market, validate your users, and write your PRD — in minutes.
