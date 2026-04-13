@@ -1,25 +1,26 @@
-from abc import ABC, abstractmethod
-from typing import AsyncGenerator
-import google.generativeai as genai
-import os
+# FROM (old parsing):
+        try:
+            clean = re.sub(r"```json\n?|```\n?", "", raw).strip()
+            start = clean.find("{")
+            end = clean.rfind("}") + 1
+            if start != -1 and end > start:
+                clean = clean[start:end]
+            data = json.loads(clean)
+        except Exception:
+            data = {
+                "posts_analyzed": len(all_posts),
+                "personas": [], "common_pain_points": [],
+                "jobs_to_be_done": [], "buying_triggers": [],
+                "raw_quotes": [], "error": "parse_failed",
+            }
 
-class BaseAgent(ABC):
-    def __init__(self, name: str, role: str):
-        self.name = name
-        self.role = role
-
-    async def think(self, prompt: str, system: str, max_tokens: int = 2000) -> str:
-        genai.configure(api_key=os.getenv("GEMINI_API_KEY", ""))
-        model = genai.GenerativeModel(
-            model_name="gemini-2.0-flash",
-            system_instruction=system
-        )
-        response = model.generate_content(
-            prompt,
-            generation_config=genai.GenerationConfig(max_output_tokens=max_tokens)
-        )
-        return response.text
-
-    @abstractmethod
-    async def run(self, context: dict) -> AsyncGenerator[dict, None]:
-        pass
+        # TO (new parsing):
+        try:
+            data = json.loads(self.extract_json(raw))
+        except Exception as e:
+            data = {
+                "posts_analyzed": len(all_posts),
+                "personas": [], "common_pain_points": [],
+                "jobs_to_be_done": [], "buying_triggers": [],
+                "raw_quotes": [], "parse_error": str(e), "raw_response": raw[:500],
+            }
