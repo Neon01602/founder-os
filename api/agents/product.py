@@ -1,6 +1,5 @@
 from typing import AsyncGenerator
 import json
-import re
 from agents.base_agent import BaseAgent
 
 SYSTEM_PROMPT = """You are a world-class product manager. Write crisp, opinionated PRDs. Prioritize ruthlessly using ICE scoring (Impact x Confidence x Ease). Output structured JSON only."""
@@ -21,7 +20,6 @@ class ProductAgent(BaseAgent):
         personas = research_data.get("personas", [])
         persona_names = [p.get("name", "") for p in personas[:3]]
         pain_points = research_data.get("common_pain_points", [])[:4]
-        jobs = research_data.get("jobs_to_be_done", [])[:2]
         market_gaps = market_data.get("market_gaps", [])[:3]
 
         prompt = f"""Create a Product Requirements Document for this startup.
@@ -31,7 +29,7 @@ TARGET PERSONAS: {', '.join(persona_names) or 'General users'}
 KEY PAIN POINTS: {json.dumps(pain_points)}
 MARKET GAPS: {json.dumps(market_gaps)}
 
-Return ONLY a JSON object with this exact structure (no markdown):
+Return ONLY a JSON object with this exact structure (no markdown, no explanation):
 {{
   "product_name": "Catchy product name",
   "tagline": "One-line value proposition",
@@ -56,13 +54,6 @@ Return ONLY a JSON object with this exact structure (no markdown):
     "excluded": ["What is NOT in MVP"],
     "success_metrics": ["Metric 1", "Metric 2"]
   }},
-  "wireframe_descriptions": [
-    {{
-      "screen": "Screen name",
-      "description": "What this screen does",
-      "key_elements": ["Element 1", "Element 2"]
-    }}
-  ],
   "go_to_market": {{
     "primary_channel": "Main acquisition channel",
     "secondary_channels": ["Channel 2", "Channel 3"],
@@ -84,28 +75,20 @@ Return ONLY a JSON object with this exact structure (no markdown):
   ]
 }}
 
-Include 5-7 core features sorted by ICE score descending. Return ONLY the JSON."""
+Include 5-7 core features sorted by ICE score descending. Return ONLY the JSON object, no other text."""
 
         raw = await self.think(prompt, SYSTEM_PROMPT, max_tokens=2500)
 
         try:
-            clean = re.sub(r"```json\n?|```\n?", "", raw).strip()
-            start = clean.find("{")
-            end = clean.rfind("}") + 1
-            if start != -1 and end > start:
-                clean = clean[start:end]
-            data = json.loads(clean)
-        except Exception:
+            data = json.loads(self.extract_json(raw))
+        except Exception as e:
             data = {
-                "product_name": "Your Product", "tagline": "Tagline unavailable",
-                "problem_statement": "Could not parse product data.",
-                "solution_statement": "", "core_features": [],
-                "mvp_scope": {"included": [], "excluded": [], "success_metrics": []},
-                "wireframe_descriptions": [],
-                "go_to_market": {"primary_channel": "", "pricing_model": "",
-                                 "first_100_users": "", "launch_strategy": "", "secondary_channels": []},
+                "product_name": "Your Product", "tagline": "",
+                "problem_statement": f"Parse error: {str(e)}", "solution_statement": "",
+                "core_features": [], "mvp_scope": {"included": [], "excluded": [], "success_metrics": []},
+                "go_to_market": {"primary_channel": "", "pricing_model": "", "first_100_users": "", "launch_strategy": "", "secondary_channels": []},
                 "technical_stack": {"frontend": "", "backend": "", "infrastructure": "", "key_integrations": []},
-                "milestones": [], "error": "parse_failed",
+                "milestones": [], "parse_error": str(e), "raw_response": raw[:500],
             }
 
         yield {"type": "agent_status", "agent": self.name, "status": "done",
