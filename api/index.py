@@ -58,8 +58,33 @@ async def launch_agents(input_data: IdeaInput):
     """
     session_id = str(uuid.uuid4())
     try:
-        result = await run_orchestrator_sync(input_data.idea, input_data.industry, session_id)
-        return JSONResponse(content=result)
+        result = await run_orchestrator_sync(
+    input_data.idea,
+    input_data.industry,
+    session_id
+)
+
+print("🚀 ORCHESTRATOR RESULT:", result)
+
+# 🔥 SAFETY FIX
+if not result or not isinstance(result, dict):
+    return JSONResponse(content={
+        "events": [],
+        "data": {},
+        "eval": {},
+        "session_id": session_id,
+        "type": "error",
+        "message": "Empty orchestrator result"
+    })
+
+    # Ensure required fields exist
+    result.setdefault("events", [])
+    result.setdefault("data", {})
+    result.setdefault("eval", {})
+    result.setdefault("session_id", session_id)
+    
+    return JSONResponse(content=result)
+
     except Exception as e:
         return JSONResponse(
             status_code=500,
