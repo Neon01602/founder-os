@@ -1,179 +1,78 @@
+# FounderOS — Vercel Deployment
 
-# FounderOS — Multi-Agent AI Startup Platform
+Multi-agent AI startup analyzer. Three AI agents (Strategist → User Research → Product) analyze your idea and produce a full startup brief.
 
-> Describe your startup idea in 2 sentences. Three specialized AI agents will analyze the market, validate your users, and write your PRD — in minutes.
+## Project Structure
+
+```
+founderos-vercel/
+├── api/                    # Python FastAPI backend (Vercel serverless)
+│   ├── index.py            # Entry point + Mangum handler
+│   ├── requirements.txt
+│   ├── agents/
+│   ├── orchestrator/
+│   ├── eval/
+│   └── schemas/
+├── public/                 # Static frontend (served by Vercel CDN)
+│   └── index.html
+├── vercel.json             # Routing config
+└── .env.example
+```
+
+## Deploy to Vercel
+
+### Step 1 — Get your OpenRouter API key
+1. Go to https://openrouter.ai/keys
+2. Create a free account and copy your API key
+3. The free DeepSeek V3 model is used (no billing needed)
+
+### Step 2 — Push to GitHub
+```bash
+git init
+git add .
+git commit -m "FounderOS initial commit"
+git remote add origin https://github.com/YOUR_USERNAME/founderos.git
+git push -u origin main
+```
+
+### Step 3 — Deploy on Vercel
+1. Go to https://vercel.com/new
+2. Import your GitHub repository
+3. **Framework Preset**: Other
+4. **Root Directory**: `.` (leave as default)
+5. Click **Add Environment Variable**:
+   - Key: `OPENROUTER_API_KEY`
+   - Value: `your_key_here`
+6. Click **Deploy**
+
+### Step 4 — Done!
+Your app will be live at `https://your-project.vercel.app`
 
 ---
 
-## Architecture
-
-```
-founderos/
-├── backend/                    # FastAPI + Python agents
-│   ├── main.py                 # API entry point (SSE streaming)
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   ├── orchestrator/
-│   │   └── graph.py            # Sequences agents, manages shared context
-│   ├── agents/
-│   │   ├── base_agent.py       # Abstract base — wraps Claude API
-│   │   ├── strategist.py       # Market sizing + competitive analysis
-│   │   ├── user_research.py    # Persona generation + simulated interviews
-│   │   └── product.py          # PRD + feature roadmap + GTM
-│   ├── eval/
-│   │   ├── scorer.py           # Per-agent quality scoring rubric
-│   │   └── logger.py           # SQLite session logging
-│   └── schemas/
-│       └── brief.py            # Pydantic output models
-│
-├── frontend/
-│   └── index.html              # Single-file React-like UI (4 screens)
-│
-├── infra/
-│   └── docker-compose.yml      # API + Frontend containers
-│
-├── .env.example
-└── README.md
-```
-
-## Agent Pipeline
-
-```
-User Idea
-    │
-    ▼
-Orchestrator (graph.py)
-    ├── 1. Strategist Agent ──────► Market data: TAM/SAM/SOM, competitors, gaps
-    │        └── result passed to ↓
-    ├── 2. User Research Agent ───► 3 personas + simulated interviews + pain points
-    │        └── result passed to ↓
-    └── 3. Product Agent ─────────► PRD: features, MVP scope, GTM, milestones
-                 └── all results assembled into Startup Brief
-                              └── Eval scorer grades each agent (A–F)
-                                           └── Logged to SQLite
-```
-
-## Quick Start
-
-### Option A: Local Python (recommended for development)
-
-**Prerequisites:** Python 3.11+
+## Local Development
 
 ```bash
-# 1. Clone / unzip the project
-cd founderos/backend
-
-# 2. Install dependencies
+# Install Python deps
+cd api
 pip install -r requirements.txt
 
-# 3. Set your API key
+# Set env var
 cp ../.env.example ../.env
-# Edit .env and add your Anthropic API key
+# Edit .env and add your OPENROUTER_API_KEY
 
-export ANTHROPIC_API_KEY=your_key_here
+# Run backend
+cd ..
+uvicorn api.index:app --reload --port 8000
 
-# 4. Run the API
-uvicorn main:app --reload --port 8000
-
-# 5. Open the frontend
-# Open frontend/index.html in your browser
-# (or serve it: python -m http.server 3000 --directory ../frontend)
+# Open frontend (in another terminal)
+python -m http.server 3000 --directory public
+# Then visit http://localhost:3000
+# NOTE: Change const API = '' to const API = 'http://localhost:8000' in public/index.html for local dev
 ```
 
-### Option B: Docker Compose
+## Important Notes
 
-```bash
-cd founderos
-
-# Set your API key
-cp .env.example .env
-# Edit .env
-
-# Run everything
-cd infra
-docker-compose up --build
-
-# Frontend: http://localhost:3000
-# API:      http://localhost:8000
-```
-
-## Environment Variables
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `ANTHROPIC_API_KEY` | ✅ | Your Anthropic API key (get one at console.anthropic.com) |
-
-## API Endpoints
-
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/` | Health check |
-| `POST` | `/api/launch` | Launch agents (SSE stream) |
-| `GET` | `/api/sessions` | List all past sessions |
-| `GET` | `/api/health` | Detailed health status |
-
-### POST /api/launch
-
-**Request body:**
-```json
-{
-  "idea": "A platform that helps solo founders validate startup ideas using AI agents",
-  "industry": "saas"
-}
-```
-
-**Streams Server-Sent Events:**
-```
-data: {"type": "session_start", "session_id": "..."}
-data: {"type": "orchestrator", "message": "Dispatching agents..."}
-data: {"type": "agent_status", "agent": "Strategist", "status": "thinking", "message": "..."}
-data: {"type": "memory_update", "key": "TAM", "value": "$47B", "agent": "Strategist"}
-data: {"type": "agent_status", "agent": "Strategist", "status": "done", "message": "..."}
-data: {"type": "brief_ready", "data": {...}, "eval": {...}}
-data: {"type": "done"}
-```
-
-## UI Screens
-
-| Screen | Description |
-|--------|-------------|
-| **Idea Intake** | Minimal form — idea textarea + industry dropdown + Launch button |
-| **Agent Workspace** | Live dashboard: agent status sidebar, streaming activity feed, shared memory panel |
-| **Startup Brief** | Full structured output: Executive Summary, Market Analysis, Personas, Feature Roadmap, GTM |
-| **Sessions** | Table of all past runs with eval scores per agent |
-
-## Eval Scoring
-
-Each agent is graded A–F based on output completeness:
-
-| Agent | Checks |
-|-------|--------|
-| Strategist | Market summary, TAM present, 3+ competitors, gaps & trends |
-| User Research | 3+ personas, interview insights, pain points, JTBD, buying triggers |
-| Product | 5+ features, product named, MVP scoped, GTM defined, wireframes |
-
-## Tech Stack
-
-| Layer | Choice |
-|-------|--------|
-| LLM | Claude Sonnet via Anthropic API |
-| Backend | FastAPI + SSE streaming |
-| Frontend | Vanilla HTML/JS (single file, no build step) |
-| Storage | SQLite (sessions) |
-| Containerization | Docker + nginx |
-
-## Adding More Agents
-
-The architecture is designed for easy extension. To add a new agent:
-
-1. Create `backend/agents/your_agent.py` extending `BaseAgent`
-2. Implement `async def run(self, context: dict) -> AsyncGenerator[dict, None]`
-3. Add it to `orchestrator/graph.py` after the existing agents
-4. Pass results into `context` for downstream agents to use
-5. Add it to `eval/scorer.py` scoring rubric
-
-## License
-
-MIT
-
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+- **Sessions**: Stored in `/tmp` on Vercel — ephemeral per serverless instance. Sessions tab may appear empty across requests (this is a Vercel free-tier limitation).
+- **Timeout**: Vercel Pro gives 60s max per function. Free tier is 10s. Agent runs take ~30-60s. **Vercel Pro or a paid plan is recommended** for reliable use.
+- **API Key**: Uses OpenRouter (`OPENROUTER_API_KEY`), NOT Anthropic — despite what the original README says.
