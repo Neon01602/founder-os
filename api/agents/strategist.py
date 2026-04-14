@@ -1,6 +1,5 @@
 from typing import AsyncGenerator
 import json
-import re
 from agents.base_agent import BaseAgent
 
 SYSTEM_PROMPT = """You are a world-class startup market strategist. Analyze startup ideas with precision and deliver actionable, data-grounded insights. Output structured JSON only. Be specific with numbers — estimate TAM/SAM/SOM using bottoms-up logic. Name real competitors. Be honest about risks."""
@@ -42,13 +41,7 @@ Include 3-4 real competitors. Return ONLY the JSON."""
         raw = await self.think(prompt, SYSTEM_PROMPT, max_tokens=1500)
 
         try:
-            clean = re.sub(r"```json\n?|```\n?", "", raw).strip()
-            # find first { to last }
-            start = clean.find("{")
-            end = clean.rfind("}") + 1
-            if start != -1 and end > start:
-                clean = clean[start:end]
-            data = json.loads(clean)
+            data = json.loads(self.extract_json(raw))
         except Exception:
             data = {
                 "market_summary": raw[:300] if raw else "Parse failed.",
