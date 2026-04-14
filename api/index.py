@@ -5,7 +5,6 @@ from pydantic import BaseModel
 import uuid
 import os
 import sys
-import time
 from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -40,7 +39,7 @@ async def health():
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
-        "env_key_set": bool(os.getenv("GEMINI_API_KEY")),
+        "env_key_set": bool(os.getenv("GROQ_API_KEY")),  # ✅ updated from GEMINI_API_KEY
     }
 
 
@@ -57,33 +56,34 @@ async def launch_agents(input_data: IdeaInput):
     with a regular JSON endpoint. The frontend handles this accordingly.
     """
     session_id = str(uuid.uuid4())
+
     try:
         result = await run_orchestrator_sync(
-    input_data.idea,
-    input_data.industry,
-    session_id
-)
+            input_data.idea,
+            input_data.industry,
+            session_id
+        )
 
-print("🚀 ORCHESTRATOR RESULT:", result)
+        print("🚀 ORCHESTRATOR RESULT:", result)  # ✅ moved inside try block
 
-# 🔥 SAFETY FIX
-if not result or not isinstance(result, dict):
-    return JSONResponse(content={
-        "events": [],
-        "data": {},
-        "eval": {},
-        "session_id": session_id,
-        "type": "error",
-        "message": "Empty orchestrator result"
-    })
+        # 🔥 SAFETY FIX
+        if not result or not isinstance(result, dict):
+            return JSONResponse(content={
+                "events": [],
+                "data": {},
+                "eval": {},
+                "session_id": session_id,
+                "type": "error",
+                "message": "Empty orchestrator result"
+            })
 
-    # Ensure required fields exist
-    result.setdefault("events", [])
-    result.setdefault("data", {})
-    result.setdefault("eval", {})
-    result.setdefault("session_id", session_id)
-    
-    return JSONResponse(content=result)
+        # Ensure required fields exist
+        result.setdefault("events", [])
+        result.setdefault("data", {})
+        result.setdefault("eval", {})
+        result.setdefault("session_id", session_id)
+
+        return JSONResponse(content=result)
 
     except Exception as e:
         return JSONResponse(
