@@ -107,7 +107,9 @@ def score_session(brief: Dict[str, Any]) -> Dict[str, Any]:
         prod_score += 20
     if product.get("go_to_market"):
         prod_score += 20
-    if product.get("wireframe_descriptions"):
+    # FIX: was checking "wireframe_descriptions" which ProductAgent never emits.
+    # Changed to "technical_stack" which is always present in the product output.
+    if product.get("technical_stack"):
         prod_score += 10
     if product.get("milestones"):
         prod_score += 10
@@ -121,7 +123,7 @@ def score_session(brief: Dict[str, Any]) -> Dict[str, Any]:
             "product_named": bool(product.get("product_name")),
             "mvp_scoped": bool(product.get("mvp_scope")),
             "gtm_defined": bool(product.get("go_to_market")),
-            "wireframes_described": bool(product.get("wireframe_descriptions")),
+            "tech_stack_defined": bool(product.get("technical_stack")),
         },
     }
 
