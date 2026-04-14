@@ -1568,7 +1568,7 @@ function renderBrief(brief, evalScores) {
       <div class="brief-section-header">
         <div>
           <div class="brief-section-title">Feature roadmap</div>
-          <div class="brief-section-sub">RICE-prioritized · MVP vs V2 split</div>
+          <div class="brief-section-sub">ICE-prioritized · MVP vs V2 split</div>
         </div>
         <button class="regen-btn">↻ Regenerate</button>
       </div>
@@ -1582,7 +1582,7 @@ function renderBrief(brief, evalScores) {
             <div class="feat-name">${f.name}</div>
             <div class="feat-story">${f.user_story||''}</div>
           </div>
-          <div class="feat-score" style="color:${(f.ice_score||0)>=50?'var(--green)':f.ice_score>=150?'var(--amber)':'var(--muted)'}">${f.ice_score||'—'}</div>
+          <div class="feat-score" style="color:${(f.ice_score||0)>=300?'var(--green)':(f.ice_score||0)>=150?'var(--amber)':'var(--muted)'}">${f.ice_score||'—'}</div>
           <div class="feat-num">${f.ease||'—'}</div>
           <div class="feat-num">${f.impact||'—'}</div>
           <div><span class="phase-badge ${f.phase==='MVP'?'phase-mvp':'phase-v2'}">${f.phase||'—'}</span></div>
