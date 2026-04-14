@@ -1381,7 +1381,6 @@ async function launchAgents() {
   showScreen('workspace');
   setAgentStatus('Orchestrator', 'thinking');
 
-  // Show animated status messages while waiting
   const statusMessages = [
     ['Orchestrator', 'Dispatching specialist agents...'],
     ['Strategist', 'Analyzing market landscape and sizing opportunity...'],
@@ -1410,25 +1409,25 @@ async function launchAgents() {
     const result = await response.json();
     console.log("🔥 API RESPONSE:", result);
     if (result.type === 'error') throw new Error(result.message);
-    // Replay events from the response for the feed
+
     if (!result.events || result.events.length === 0) {
       addFeedEntry('Orchestrator', '⚠️ No events returned from backend', 'error');
     }
-    
+
     (result.events || []).forEach(e => handleEvent(e));
 
-    // Then fire the brief_ready event
     if (!result.data || Object.keys(result.data).length === 0) {
       addFeedEntry('Orchestrator', '⚠️ No brief data generated', 'error');
     } else {
-      handleEvent({ 
+      handleEvent({
         type: 'brief_ready',
         data: result.data,
         eval: result.eval,
-        session_id: result.session_id 
+        session_id: result.session_id
       });
-    }
- catch(err) {
+    }                                          // ← this closing brace was missing
+
+  } catch(err) {
     clearInterval(statusInterval);
     addFeedEntry('Orchestrator', `Error: ${err.message}`, 'error');
     document.getElementById('feed-spinner').style.display = 'none';
