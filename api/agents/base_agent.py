@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import AsyncGenerator
-import google.generativeai as genai
+from groq import Groq
 import os
+
+client = Groq(api_key=os.getenv("GROQ_API_KEY", ""))
+
 
 class BaseAgent(ABC):
     def __init__(self, name: str, role: str):
@@ -9,16 +12,16 @@ class BaseAgent(ABC):
         self.role = role
 
     async def think(self, prompt: str, system: str, max_tokens: int = 2000) -> str:
-        genai.configure(api_key=os.getenv("GEMINI_API_KEY", ""))
-        model = genai.GenerativeModel(
-            model_name="gemini-2.0-flash",
-            system_instruction=system
+        """Call Groq API and return full response text."""
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            max_tokens=max_tokens,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": prompt},
+            ],
         )
-        response = model.generate_content(
-            prompt,
-            generation_config=genai.GenerationConfig(max_output_tokens=max_tokens)
-        )
-        return response.text
+        return response.choices[0].message.content
 
     @abstractmethod
     async def run(self, context: dict) -> AsyncGenerator[dict, None]:
