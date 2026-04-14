@@ -672,32 +672,33 @@ nav {
   grid-template-columns: 220px 1fr;
   height: calc(100vh - 60px);
   overflow: hidden;
+  background: #0d0d0f;
 }
 .brief-nav {
-  border-right: 1px solid var(--border);
+  border-right: 1px solid rgba(255,255,255,0.06);
   padding: 20px 12px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: var(--off-white);
+  background: #0a0a0c;
 }
 .brief-nav-title {
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--muted2);
+  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.22);
   font-weight: 700;
   font-family: var(--font-mono);
   padding-bottom: 10px;
   margin-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 .brief-nav-item {
-  padding: 8px 12px;
+  padding: 9px 12px;
   border-radius: var(--r);
-  font-size: 13px;
-  color: var(--muted);
+  font-size: 12px;
+  color: rgba(255,255,255,0.32);
   cursor: pointer;
   transition: all 0.15s;
   border: 1px solid transparent;
@@ -705,299 +706,734 @@ nav {
   align-items: center;
   gap: 9px;
   font-weight: 500;
+  font-family: var(--font-mono);
+  letter-spacing: 0.03em;
 }
-.brief-nav-item:hover { background: var(--white); color: var(--ink); border-color: var(--border); }
-.brief-nav-item.active { background: var(--white); color: var(--ink); border-color: var(--border2); box-shadow: var(--shadow); }
-.brief-nav-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.brief-content { overflow-y: auto; padding: 40px 44px; background: var(--white); }
+.brief-nav-item:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.65); border-color: rgba(255,255,255,0.07); }
+.brief-nav-item.active { background: rgba(99,102,241,0.12); color: #a5b4fc; border-color: rgba(99,102,241,0.22); }
+.brief-nav-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+/* ═══════════════════════════════════════════════════════
+   BRIEF OUTPUT SECTIONS — dark editorial redesign
+   ═══════════════════════════════════════════════════════ */
+
+.brief-content {
+  overflow-y: auto;
+  padding: 0;
+  background: #0d0d0f;
+  min-height: 100%;
+}
 .brief-section { display: none; }
-.brief-section.active { display: block; animation: fadeUp 0.35s cubic-bezier(0.4,0,0.2,1); }
+.brief-section.active {
+  display: block;
+  animation: sectionReveal 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes sectionReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Section shell ── */
+.brief-section-shell {
+  padding: 40px 44px 56px;
+}
 .brief-section-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 32px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.brief-section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 8px;
 }
 .brief-section-title {
   font-family: var(--font-display);
-  font-size: 26px; font-weight: 700;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-  color: var(--ink);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  line-height: 1.1;
+  color: #f0ece4;
 }
 .brief-section-sub {
-  font-size: 12px; color: var(--muted2);
-  margin-top: 5px; font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.28);
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
 }
 .regen-btn {
-  padding: 6px 14px;
-  border: 1px solid var(--border2);
+  padding: 7px 14px;
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: var(--r);
-  background: var(--white);
-  color: var(--muted);
-  font-size: 12px;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.4);
+  font-size: 11px;
   cursor: pointer;
-  font-family: var(--font);
-  transition: all 0.15s;
+  font-family: var(--font-mono);
+  transition: all 0.2s;
   white-space: nowrap;
-  font-weight: 500;
-  box-shadow: var(--shadow);
+  letter-spacing: 0.06em;
 }
-.regen-btn:hover { background: var(--off-white); color: var(--ink); border-color: var(--border2); transform: rotate(-5deg); }
+.regen-btn:hover {
+  background: rgba(255,255,255,0.09);
+  color: rgba(255,255,255,0.75);
+  border-color: rgba(255,255,255,0.2);
+  transform: rotate(-5deg);
+}
 
-/* Summary */
-.summary-hero {
-  background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
-  border: 1px solid var(--blue-mid);
-  border-radius: var(--r3);
-  padding: 30px;
-  margin-bottom: 22px;
+/* ── SUMMARY ─────────────────────────────────── */
+.summary-banner {
+  background: linear-gradient(130deg, #0f1117 0%, #111320 50%, #0e1010 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 36px 38px;
+  margin-bottom: 20px;
   position: relative;
   overflow: hidden;
 }
-.summary-hero::before {
+.summary-banner::before {
   content: '';
   position: absolute;
-  top: -30px; right: -30px;
-  width: 160px; height: 160px;
-  background: radial-gradient(circle, rgba(124,58,237,0.12), transparent 70%);
+  top: -60px; right: -60px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
   border-radius: 50%;
+  pointer-events: none;
+}
+.summary-banner::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: 20px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(20,184,166,0.10) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.summary-kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(99,102,241,0.7);
+  margin-bottom: 12px;
+  position: relative; z-index: 1;
 }
 .summary-product-name {
   font-family: var(--font-display);
-  font-size: 30px; font-weight: 700;
-  letter-spacing: -0.5px;
-  margin-bottom: 7px;
-  color: var(--ink);
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  color: #f0ece4;
+  line-height: 1.0;
+  margin-bottom: 10px;
+  position: relative; z-index: 1;
 }
-.summary-tagline { font-size: 14px; color: #333333; font-weight: 400; }
-.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.summary-tagline {
+  font-size: 15px;
+  color: rgba(240,236,228,0.55);
+  font-weight: 400;
+  line-height: 1.5;
+  position: relative; z-index: 1;
+  max-width: 520px;
+}
+.summary-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  margin: 28px 0;
+  position: relative; z-index: 1;
+}
+.summary-meta-row {
+  display: flex;
+  gap: 32px;
+  position: relative; z-index: 1;
+  flex-wrap: wrap;
+}
+.summary-meta-item { display: flex; flex-direction: column; gap: 4px; }
+.summary-meta-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(240,236,228,0.3);
+}
+.summary-meta-val {
+  font-size: 13px;
+  color: rgba(240,236,228,0.8);
+  font-weight: 500;
+}
+.summary-quad {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
 .summary-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r2);
-  padding: 18px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 20px 22px;
   transition: all 0.2s;
-  box-shadow: var(--shadow);
-}
-.summary-card:hover { border-color: var(--border2); transform: translateY(-1px); box-shadow: var(--shadow2); }
-.summary-card-label {
-  font-size: 10px; text-transform: uppercase;
-  letter-spacing: 0.10em; color: var(--muted2);
-  font-weight: 700; font-family: var(--font-mono);
-  margin-bottom: 8px;
-}
-.summary-card-text { font-size: 13px; color: var(--ink); line-height: 1.7; }
-/* Market */
-.tam-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
-.tam-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r3);
-  padding: 22px;
-  text-align: center;
-  transition: all 0.2s;
-  box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
 }
+.summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 12px 12px 0 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.summary-card:nth-child(1)::before { background: linear-gradient(90deg,#6366f1,#8b5cf6); }
+.summary-card:nth-child(2)::before { background: linear-gradient(90deg,#14b8a6,#06b6d4); }
+.summary-card:nth-child(3)::before { background: linear-gradient(90deg,#f59e0b,#f97316); }
+.summary-card:nth-child(4)::before { background: linear-gradient(90deg,#10b981,#14b8a6); }
+.summary-card:hover { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.12); }
+.summary-card:hover::before { opacity: 1; }
+.summary-card-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(240,236,228,0.3);
+  margin-bottom: 10px;
+}
+.summary-card-text {
+  font-size: 13px;
+  color: rgba(240,236,228,0.75);
+  line-height: 1.7;
+}
+
+/* ── MARKET ─────────────────────────────────── */
+.tam-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.tam-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 26px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s;
+}
+.tam-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tam-card:nth-child(1) { --tam-clr: #6366f1; }
+.tam-card:nth-child(2) { --tam-clr: #14b8a6; }
+.tam-card:nth-child(3) { --tam-clr: #f59e0b; }
 .tam-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 3px;
+  height: 2px;
+  background: var(--tam-clr);
+  opacity: 0.7;
 }
-.tam-card:nth-child(1)::before { background: linear-gradient(90deg, var(--blue), var(--purple)); }
-.tam-card:nth-child(2)::before { background: linear-gradient(90deg, var(--teal), var(--green)); }
-.tam-card:nth-child(3)::before { background: linear-gradient(90deg, var(--amber), var(--orange)); }
-.tam-card:hover { transform: translateY(-2px); box-shadow: var(--shadow2); }
-.tam-label { font-size: 10px; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.10em; font-family: var(--font-mono); font-weight: 700; margin-bottom: 8px; }
-.tam-value { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
-.tam-logic { font-size: 11px; color: #333333; line-height: 1.5; }
-.competitor-row {
-  display: grid;
-  grid-template-columns: 140px 1fr 1fr 1fr;
-  gap: 0;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-  align-items: start;
-  transition: background 0.15s;
+.tam-card:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.13);
+  transform: translateY(-3px);
 }
-.competitor-row:hover:not(:first-child) { background: var(--off-white); margin: 0 -8px; padding: 12px 8px; border-radius: var(--r); }
-.competitor-row:first-child { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted2); font-family: var(--font-mono); font-weight: 700; padding-bottom: 10px; }
-.comp-name { font-size: 13px; font-weight: 700; color: var(--ink); font-family: var(--font-display); }
-.comp-cell { font-size: 12px; color: #222222; line-height: 1.5; padding-right: 12px; }
+.tam-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 12px;
+}
+.tam-value {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--tam-clr);
+  margin-bottom: 10px;
+  line-height: 1;
+  text-shadow: 0 0 40px color-mix(in srgb, var(--tam-clr) 30%, transparent);
+}
+.tam-logic {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.6;
+}
 .section-subtitle {
   font-family: var(--font-display);
-  font-size: 15px; font-weight: 600;
-  margin: 28px 0 14px;
-  color: var(--ink);
-  letter-spacing: -0.2px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(240,236,228,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  margin: 32px 0 14px;
 }
-.pill-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.competitor-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+}
+.competitor-table thead tr {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.competitor-table thead th {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.25);
+  padding: 0 14px 12px;
+  text-align: left;
+  font-weight: 600;
+}
+.competitor-table thead th:first-child { padding-left: 0; }
+.competitor-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.15s;
+}
+.competitor-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+.competitor-table tbody tr:last-child { border-bottom: none; }
+.competitor-table tbody td {
+  padding: 14px;
+  font-size: 12px;
+  color: rgba(240,236,228,0.6);
+  vertical-align: top;
+  line-height: 1.55;
+}
+.competitor-table tbody td:first-child {
+  padding-left: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  color: rgba(240,236,228,0.9);
+  white-space: nowrap;
+}
+.pill-list { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
 .pill {
-  padding: 5px 12px; border-radius: 2em;
-  font-size: 12px; font-weight: 500;
-  transition: transform 0.15s;
+  padding: 5px 13px;
+  border-radius: 2em;
+  font-size: 11.5px;
+  font-weight: 500;
+  transition: transform 0.15s, box-shadow 0.15s;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
 }
 .pill:hover { transform: translateY(-1px); }
-.pill-gap   { background: var(--green-light); color: var(--green); border: 1px solid var(--green-mid); }
-.pill-risk  { background: var(--red-light); color: var(--red); border: 1px solid var(--red-mid); }
-.pill-trend { background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-mid); }
+.pill-gap  { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.22); }
+.pill-risk { background: rgba(239,68,68,0.10); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+.pill-trend{ background: rgba(99,102,241,0.12); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.22); }
 
-/* Personas */
-.persona-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+/* ── PERSONAS ─────────────────────────────────── */
+.persona-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
 .persona-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r3);
-  padding: 22px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  transition: all 0.2s;
-  box-shadow: var(--shadow);
-  animation: fadeUp 0.4s cubic-bezier(0.4,0,0.2,1) both;
+  gap: 14px;
+  transition: all 0.25s;
+  animation: sectionReveal 0.4s cubic-bezier(0.4,0,0.2,1) both;
+  position: relative;
+  overflow: hidden;
 }
-.persona-card:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: var(--shadow2); }
-.persona-header { display: flex; align-items: center; gap: 12px; }
+.persona-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 16px 16px 0 0;
+}
+.persona-card:nth-child(1)::before { background: linear-gradient(90deg,#6366f1,#8b5cf6); }
+.persona-card:nth-child(2)::before { background: linear-gradient(90deg,#14b8a6,#06b6d4); }
+.persona-card:nth-child(3)::before { background: linear-gradient(90deg,#f59e0b,#f97316); }
+.persona-card:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.persona-header { display: flex; align-items: center; gap: 13px; }
 .persona-avatar {
-  width: 42px; height: 42px;
-  border-radius: 50%;
+  width: 46px; height: 46px;
+  border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   font-family: var(--font-display);
-  font-size: 14px; font-weight: 700;
+  font-size: 15px; font-weight: 700;
   flex-shrink: 0;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255,255,255,0.1);
 }
-.av-0 { background: var(--blue-light); color: var(--blue); }
-.av-1 { background: var(--green-light); color: var(--green); }
-.av-2 { background: var(--amber-light); color: var(--amber); }
-.persona-name { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--ink); }
-.persona-title { font-size: 11px; color: #555555; margin-top: 1px; }
+.av-0 { background: rgba(99,102,241,0.2); color: #a5b4fc; }
+.av-1 { background: rgba(20,184,166,0.18); color: #5eead4; }
+.av-2 { background: rgba(245,158,11,0.18); color: #fcd34d; }
+.persona-name {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 15px;
+  color: #f0ece4;
+}
+.persona-title { font-size: 11px; color: rgba(240,236,228,0.38); margin-top: 2px; }
 .persona-archetype {
-  font-size: 10px;
-  padding: 3px 10px;
+  font-size: 9px;
+  padding: 4px 10px;
   border-radius: 2em;
-  background: var(--off-white);
-  color: var(--muted);
-  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+  color: rgba(240,236,228,0.45);
+  border: 1px solid rgba(255,255,255,0.09);
   display: inline-block;
   font-family: var(--font-mono);
   font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  align-self: flex-start;
+}
+.persona-bio {
+  font-size: 12.5px;
+  color: rgba(240,236,228,0.5);
+  line-height: 1.75;
+  font-style: italic;
+}
+.persona-quote {
+  border-left: 2px solid rgba(99,102,241,0.5);
+  padding-left: 14px;
+  font-size: 13px;
+  color: rgba(240,236,228,0.7);
+  font-style: italic;
+  line-height: 1.65;
+}
+.persona-pains { display: flex; flex-direction: column; gap: 7px; }
+.persona-pain {
+  display: flex; align-items: flex-start; gap: 9px;
+  font-size: 12px; color: rgba(240,236,228,0.6);
+  line-height: 1.5;
+}
+.persona-pain::before {
+  content: '—';
+  color: #f87171;
+  flex-shrink: 0;
+  font-weight: 700;
+  line-height: 1.5;
+  font-size: 12px;
+  font-family: var(--font-mono);
+}
+.persona-wtp {
+  font-size: 13px;
+  color: #34d399;
+  font-weight: 700;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-family: var(--font-mono);
   letter-spacing: 0.04em;
 }
-.persona-bio { font-size: 12px; color: #333333; line-height: 1.7; font-style: italic; }
-.persona-quote {
-  border-left: 3px solid var(--blue);
-  padding-left: 12px;
-  font-size: 13px;
-  color: var(--ink);
-  font-style: italic;
-  line-height: 1.6;
-}
-.persona-pains { display: flex; flex-direction: column; gap: 5px; }
-.persona-pain { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; color: #222222; }
-.persona-pain::before { content: '×'; color: var(--red); flex-shrink: 0; font-weight: 700; line-height: 1.4; font-size: 13px; }
-.persona-wtp { font-size: 12px; color: var(--green); font-weight: 700; padding-top: 8px; border-top: 1px solid var(--border); font-family: var(--font-mono); }
+.persona-wtp::before { content: '$  '; color: rgba(52,211,153,0.45); }
 .interview-toggle {
-  font-size: 12px;
-  color: var(--blue);
+  font-size: 11px;
+  color: rgba(165,180,252,0.7);
   cursor: pointer;
-  padding: 5px 0;
+  padding: 6px 0;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   border: none;
   background: transparent;
-  font-family: var(--font);
+  font-family: var(--font-mono);
   font-weight: 600;
-  transition: gap 0.2s;
+  transition: color 0.2s, gap 0.2s;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 9px;
 }
-.interview-toggle:hover { gap: 10px; }
+.interview-toggle:hover { color: #a5b4fc; gap: 11px; }
 .interview-block {
   display: none;
   flex-direction: column;
-  gap: 10px;
-  padding: 14px;
-  background: var(--off-white);
-  border-radius: var(--r);
-  border: 1px solid var(--border);
+  gap: 12px;
+  padding: 16px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
 }
-.interview-block.open { display: flex; animation: fadeUp 0.3s ease; }
-.interview-q { font-size: 12px; color: #555555; font-style: italic; }
-.interview-a { font-size: 13px; color: var(--ink); line-height: 1.6; }
+.interview-block.open { display: flex; animation: sectionReveal 0.3s ease; }
+.interview-q { font-size: 11px; color: rgba(165,180,252,0.6); font-style: italic; font-family: var(--font-mono); }
+.interview-a { font-size: 12.5px; color: rgba(240,236,228,0.65); line-height: 1.65; margin-top: 5px; }
 
-/* Features */
-.feature-row {
-  display: grid;
-  grid-template-columns: 36px 1fr 72px 64px 60px 72px;
-  gap: 0;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-  align-items: start;
+/* ── FEATURES ─────────────────────────────────── */
+.feature-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.feature-table thead tr {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.feature-table thead th {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.25);
+  padding: 0 12px 14px;
+  text-align: left;
+  font-weight: 600;
+}
+.feature-table thead th:first-child { padding-left: 0; width: 44px; }
+.feature-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
   transition: background 0.15s;
 }
-.feature-row:hover:not(.header-row) { background: var(--off-white); margin: 0 -8px; padding: 14px 8px; border-radius: var(--r); }
-.feature-row.header-row { font-size: 10px; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted2); font-family: var(--font-mono); font-weight: 700; padding-bottom: 10px; }
-.feat-id { font-family: var(--font-mono); font-size: 11px; color: var(--muted2); padding-top: 2px; }
-.feat-name { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; font-family: var(--font-display); }
-.feat-story { font-size: 11px; color: #333333; line-height: 1.5; font-style: italic; }
-.feat-score { font-family: var(--font-display); font-size: 18px; font-weight: 700; text-align: center; }
-.feat-num { font-size: 12px; text-align: center; color: #333333; font-family: var(--font-mono); }
-.phase-badge { font-size: 10px; padding: 3px 9px; border-radius: 2em; text-align: center; font-weight: 700; font-family: var(--font-mono); }
-.phase-mvp { background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-mid); }
-.phase-v2  { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-mid); }
+.feature-table tbody tr:hover { background: rgba(255,255,255,0.025); }
+.feature-table tbody tr:last-child { border-bottom: none; }
+.feature-table tbody td {
+  padding: 16px 12px;
+  vertical-align: top;
+}
+.feat-id {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.2);
+  padding-top: 2px;
+  padding-left: 0 !important;
+}
+.feat-name {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: rgba(240,236,228,0.9);
+  margin-bottom: 4px;
+}
+.feat-story {
+  font-size: 11px;
+  color: rgba(240,236,228,0.38);
+  line-height: 1.55;
+  font-style: italic;
+}
+.feat-score {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+.feat-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(240,236,228,0.5);
+  text-align: center;
+}
+.phase-badge {
+  font-size: 9px;
+  padding: 4px 10px;
+  border-radius: 2em;
+  text-align: center;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.phase-mvp { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.25); }
+.phase-v2  { background: rgba(245,158,11,0.12); color: #fcd34d; border: 1px solid rgba(245,158,11,0.22); }
 
-/* GTM */
-.gtm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+/* ── GTM ─────────────────────────────────── */
+.gtm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 28px;
+}
 .gtm-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r3);
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 13px;
   padding: 22px;
   transition: all 0.2s;
-  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
 }
-.gtm-card:hover { border-color: var(--border2); transform: translateY(-1px); box-shadow: var(--shadow2); }
-.gtm-card-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.10em; color: var(--muted2); margin-bottom: 10px; font-family: var(--font-mono); font-weight: 700; }
-.gtm-card-content { font-size: 13px; color: var(--ink); line-height: 1.7; }.milestone-row {
-  display: flex; gap: 16px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
+.gtm-card:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.11);
+  transform: translateY(-2px);
+}
+.gtm-card-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(240,236,228,0.28);
+  margin-bottom: 10px;
+}
+.gtm-card-content {
+  font-size: 13px;
+  color: rgba(240,236,228,0.72);
+  line-height: 1.7;
+}
+.tech-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.tech-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.tech-card-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(240,236,228,0.25);
+  margin-bottom: 8px;
+}
+.tech-card-val {
+  font-size: 13px;
+  color: rgba(240,236,228,0.65);
+  line-height: 1.6;
+}
+.milestone-list { display: flex; flex-direction: column; gap: 0; }
+.milestone-row {
+  display: flex;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   align-items: flex-start;
   transition: background 0.15s;
+  position: relative;
 }
-.milestone-row:hover { background: var(--off-white); margin: 0 -8px; padding: 14px 8px; border-radius: var(--r); }
-.milestone-week { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--blue); white-space: nowrap; flex-shrink: 0; padding-top: 2px; min-width: 80px; }
-.milestone-goal { font-size: 13px; color: var(--ink); line-height: 1.5; }
+.milestone-row::before {
+  content: '';
+  position: absolute;
+  left: -44px;
+  top: 50%;
+  width: 8px; height: 8px;
+  background: rgba(99,102,241,0.5);
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+.milestone-row:last-child { border-bottom: none; }
+.milestone-row:hover { background: rgba(255,255,255,0.025); margin: 0 -22px; padding: 16px 22px; border-radius: 8px; }
+.milestone-week {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: #a5b4fc;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 2px;
+  min-width: 90px;
+  letter-spacing: 0.04em;
+}
+.milestone-goal {
+  font-size: 13px;
+  color: rgba(240,236,228,0.65);
+  line-height: 1.6;
+}
 
-/* Eval */
-.eval-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 28px; }
-.eval-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r3);
-  padding: 22px;
-  transition: all 0.2s;
-  box-shadow: var(--shadow);
+/* ── EVAL ─────────────────────────────────── */
+.eval-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
 }
-.eval-card:hover { border-color: var(--border2); box-shadow: var(--shadow2); }
-.eval-agent-name { font-family: var(--font-display); font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; color: var(--ink); }
-.eval-grade { width: 36px; height: 36px; border-radius: var(--r); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; font-family: var(--font-display); }
-.grade-A { background: var(--green-light); color: var(--green); border: 1px solid var(--green-mid); }
-.grade-B { background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-mid); }
-.grade-C { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-mid); }
-.grade-D, .grade-F { background: var(--red-light); color: var(--red); border: 1px solid var(--red-mid); }
-.eval-score-bar { height: 5px; background: var(--off-white); border-radius: 3px; margin-bottom: 14px; overflow: hidden; }
-.eval-score-fill { height: 100%; border-radius: 3px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
-.eval-checks { display: flex; flex-direction: column; gap: 7px; }
-.eval-check { display: flex; align-items: center; gap: 9px; font-size: 12px; color: var(--muted); }
-.check-icon { font-size: 11px; flex-shrink: 0; font-weight: 700; }
-.check-pass { color: var(--green); }
-.check-fail { color: var(--red); }
+.eval-card {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 24px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.eval-card:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.11); }
+.eval-card-overall {
+  background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.08));
+  border-color: rgba(99,102,241,0.2);
+}
+.eval-agent-name {
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 700;
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  color: rgba(240,236,228,0.85);
+}
+.eval-grade {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+  font-family: var(--font-display);
+}
+.grade-A { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+.grade-B { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.25); }
+.grade-C { background: rgba(245,158,11,0.13); color: #fcd34d; border: 1px solid rgba(245,158,11,0.22); }
+.grade-D,.grade-F { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+.eval-score-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.eval-score-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.4s cubic-bezier(0.4,0,0.2,1);
+}
+.eval-score-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(240,236,228,0.3);
+  margin-bottom: 16px;
+  letter-spacing: 0.05em;
+}
+.eval-overall-score {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  color: #a5b4fc;
+  line-height: 1;
+  margin: 8px 0 4px;
+}
+.eval-overall-denom {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: rgba(240,236,228,0.25);
+}
+.eval-checks { display: flex; flex-direction: column; gap: 8px; }
+.eval-check {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11.5px;
+  color: rgba(240,236,228,0.45);
+  font-family: var(--font-mono);
+  letter-spacing: 0.03em;
+}
+.check-icon { font-size: 10px; flex-shrink: 0; font-weight: 700; width: 14px; }
+.check-pass { color: #34d399; }
+.check-fail { color: rgba(248,113,113,0.55); }
 
 /* Sessions table */
 .sessions-table { width: 100%; border-collapse: collapse; }
@@ -1482,168 +1918,250 @@ function renderBrief(brief, evalScores) {
   const market   = brief.market   || {};
   const research = brief.research || {};
   const product  = brief.product  || {};
+  const gtm      = product.go_to_market || {};
+  const stack    = product.technical_stack || {};
 
   content.innerHTML = `
-    <!-- SUMMARY -->
+    <!-- ══ SUMMARY ══ -->
     <div class="brief-section active" id="brief-summary">
-      <div class="brief-section-header">
-        <div>
-          <div class="brief-section-title">Executive summary</div>
-          <div class="brief-section-sub">Generated in ${brief.elapsed_seconds}s · ${new Date(brief.generated_at).toLocaleString()}</div>
-        </div>
-      </div>
-      <div class="summary-hero">
-        <div class="summary-product-name">${product.product_name || 'Your Product'}</div>
-        <div class="summary-tagline">${product.tagline || ''}</div>
-      </div>
-      <div class="summary-grid">
-        <div class="summary-card">
-          <div class="summary-card-label">The problem</div>
-          <div class="summary-card-text">${product.problem_statement || '—'}</div>
-        </div>
-        <div class="summary-card">
-          <div class="summary-card-label">The solution</div>
-          <div class="summary-card-text">${product.solution_statement || '—'}</div>
-        </div>
-        <div class="summary-card">
-          <div class="summary-card-label">Market opportunity</div>
-          <div class="summary-card-text">${market.market_summary || '—'}</div>
-        </div>
-        <div class="summary-card">
-          <div class="summary-card-label">Primary channel</div>
-          <div class="summary-card-text">${product.go_to_market?.primary_channel || '—'}</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MARKET -->
-    <div class="brief-section" id="brief-market">
-      <div class="brief-section-header">
-        <div>
-          <div class="brief-section-title">Market analysis</div>
-          <div class="brief-section-sub">TAM · SAM · SOM · Competitive landscape</div>
-        </div>
-        <button class="regen-btn">↻ Regenerate</button>
-      </div>
-      <div class="tam-grid">
-        ${renderTAMCard('TAM', market.tam, 'var(--blue)')}
-        ${renderTAMCard('SAM', market.sam, 'var(--teal)')}
-        ${renderTAMCard('SOM', market.som, 'var(--amber)')}
-      </div>
-      <div class="section-subtitle">Competitive landscape</div>
-      <div class="competitor-row" style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);font-family:var(--font-mono);font-weight:700;padding-bottom:10px">
-        <div>Company</div><div>Strength</div><div>Weakness</div><div>Positioning</div>
-      </div>
-      ${(market.competitors||[]).map(c=>`
-        <div class="competitor-row">
-          <div class="comp-name">${c.name}</div>
-          <div class="comp-cell">${c.strength}</div>
-          <div class="comp-cell">${c.weakness}</div>
-          <div class="comp-cell">${c.positioning}</div>
-        </div>`).join('')}
-      <div class="section-subtitle">Market gaps</div>
-      <div class="pill-list">${(market.market_gaps||[]).map(g=>`<span class="pill pill-gap">${g}</span>`).join('')}</div>
-      <div class="section-subtitle">Key trends</div>
-      <div class="pill-list">${(market.market_trends||[]).map(t=>`<span class="pill pill-trend">${t}</span>`).join('')}</div>
-      <div class="section-subtitle">Risks</div>
-      <div class="pill-list">${(market.risks||[]).map(r=>`<span class="pill pill-risk">${r}</span>`).join('')}</div>
-    </div>
-
-    <!-- PERSONAS -->
-    <div class="brief-section" id="brief-personas">
-      <div class="brief-section-header">
-        <div>
-          <div class="brief-section-title">User personas</div>
-          <div class="brief-section-sub">Synthetic profiles · Simulated interviews · Pain mapping</div>
-        </div>
-        <button class="regen-btn">↻ Regenerate</button>
-      </div>
-      <div class="persona-cards">
-        ${(research.personas||[]).map((p,i)=>renderPersonaCard(p,i)).join('')}
-      </div>
-    </div>
-
-    <!-- FEATURES -->
-    <div class="brief-section" id="brief-features">
-      <div class="brief-section-header">
-        <div>
-          <div class="brief-section-title">Feature roadmap</div>
-          <div class="brief-section-sub">ICE-prioritized · MVP vs V2 split</div>
-        </div>
-        <button class="regen-btn">↻ Regenerate</button>
-      </div>
-      <div class="feature-row header-row">
-        <div>#</div><div>Feature</div><div>ICE</div><div>Ease</div><div>Impact</div><div>Phase</div>
-      </div>
-      ${(product.core_features||[]).map((f,i)=>`
-        <div class="feature-row">
-          <div class="feat-id">${String(i+1).padStart(2,'0')}</div>
+      <div class="brief-section-shell">
+        <div class="brief-section-header">
           <div>
-            <div class="feat-name">${f.name}</div>
-            <div class="feat-story">${f.user_story||''}</div>
+            <div class="brief-section-eyebrow">01 / Executive Summary</div>
+            <div class="brief-section-title">Brief Overview</div>
+            <div class="brief-section-sub">Generated in ${brief.elapsed_seconds}s · ${new Date(brief.generated_at).toLocaleString()}</div>
           </div>
-          <div class="feat-score" style="color:${(f.ice_score||0)>=300?'var(--green)':(f.ice_score||0)>=150?'var(--amber)':'var(--muted)'}">${f.ice_score||'—'}</div>
-          <div class="feat-num">${f.ease||'—'}</div>
-          <div class="feat-num">${f.impact||'—'}</div>
-          <div><span class="phase-badge ${f.phase==='MVP'?'phase-mvp':'phase-v2'}">${f.phase||'—'}</span></div>
-        </div>`).join('')}
+        </div>
+
+        <div class="summary-banner">
+          <div class="summary-kicker">✦ Product</div>
+          <div class="summary-product-name">${product.product_name || 'Your Product'}</div>
+          <div class="summary-tagline">${product.tagline || ''}</div>
+          <hr class="summary-divider"/>
+          <div class="summary-meta-row">
+            <div class="summary-meta-item">
+              <div class="summary-meta-label">Industry</div>
+              <div class="summary-meta-val">${brief.industry}</div>
+            </div>
+            <div class="summary-meta-item">
+              <div class="summary-meta-label">TAM</div>
+              <div class="summary-meta-val">${market.tam?.value || '—'}</div>
+            </div>
+            <div class="summary-meta-item">
+              <div class="summary-meta-label">Primary channel</div>
+              <div class="summary-meta-val">${gtm.primary_channel || '—'}</div>
+            </div>
+            <div class="summary-meta-item">
+              <div class="summary-meta-label">Market score</div>
+              <div class="summary-meta-val">${market.score ? market.score + ' / 10' : '—'}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-quad">
+          <div class="summary-card">
+            <div class="summary-card-label">The problem</div>
+            <div class="summary-card-text">${product.problem_statement || '—'}</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">The solution</div>
+            <div class="summary-card-text">${product.solution_statement || '—'}</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">Market opportunity</div>
+            <div class="summary-card-text">${market.market_summary || '—'}</div>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">Go-to-market</div>
+            <div class="summary-card-text">${gtm.launch_strategy || gtm.first_100_users || '—'}</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- GTM -->
+    <!-- ══ MARKET ══ -->
+    <div class="brief-section" id="brief-market">
+      <div class="brief-section-shell">
+        <div class="brief-section-header">
+          <div>
+            <div class="brief-section-eyebrow">02 / Market Analysis</div>
+            <div class="brief-section-title">Market Intelligence</div>
+            <div class="brief-section-sub">TAM · SAM · SOM · Competitive landscape</div>
+          </div>
+          <button class="regen-btn">↻ Regen</button>
+        </div>
+
+        <div class="tam-grid">
+          ${renderTAMCard('TAM', market.tam)}
+          ${renderTAMCard('SAM', market.sam)}
+          ${renderTAMCard('SOM', market.som)}
+        </div>
+
+        <div class="section-subtitle">Competitive landscape</div>
+        <table class="competitor-table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Strength</th>
+              <th>Weakness</th>
+              <th>Positioning</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${(market.competitors||[]).map(c=>`
+              <tr>
+                <td>${c.name}</td>
+                <td>${c.strength}</td>
+                <td>${c.weakness}</td>
+                <td>${c.positioning}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+
+        <div class="section-subtitle">Market gaps</div>
+        <div class="pill-list">${(market.market_gaps||[]).map(g=>`<span class="pill pill-gap">${g}</span>`).join('')}</div>
+
+        <div class="section-subtitle">Key trends</div>
+        <div class="pill-list">${(market.market_trends||[]).map(t=>`<span class="pill pill-trend">${t}</span>`).join('')}</div>
+
+        <div class="section-subtitle">Risks</div>
+        <div class="pill-list">${(market.risks||[]).map(r=>`<span class="pill pill-risk">${r}</span>`).join('')}</div>
+      </div>
+    </div>
+
+    <!-- ══ PERSONAS ══ -->
+    <div class="brief-section" id="brief-personas">
+      <div class="brief-section-shell">
+        <div class="brief-section-header">
+          <div>
+            <div class="brief-section-eyebrow">03 / User Research</div>
+            <div class="brief-section-title">User Personas</div>
+            <div class="brief-section-sub">Synthetic profiles · Simulated interviews · Pain mapping</div>
+          </div>
+          <button class="regen-btn">↻ Regen</button>
+        </div>
+        <div class="persona-cards">
+          ${(research.personas||[]).map((p,i)=>renderPersonaCard(p,i)).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FEATURES ══ -->
+    <div class="brief-section" id="brief-features">
+      <div class="brief-section-shell">
+        <div class="brief-section-header">
+          <div>
+            <div class="brief-section-eyebrow">04 / Product</div>
+            <div class="brief-section-title">Feature Roadmap</div>
+            <div class="brief-section-sub">ICE-prioritized · MVP vs V2 split</div>
+          </div>
+          <button class="regen-btn">↻ Regen</button>
+        </div>
+        <table class="feature-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Feature</th>
+              <th style="text-align:center">ICE</th>
+              <th style="text-align:center">Ease</th>
+              <th style="text-align:center">Impact</th>
+              <th>Phase</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${(product.core_features||[]).map((f,i)=>`
+              <tr>
+                <td><div class="feat-id">${String(i+1).padStart(2,'0')}</div></td>
+                <td>
+                  <div class="feat-name">${f.name}</div>
+                  <div class="feat-story">${f.user_story||''}</div>
+                </td>
+                <td><div class="feat-score" style="color:${(f.ice_score||0)>=300?'#34d399':(f.ice_score||0)>=150?'#fcd34d':'rgba(240,236,228,0.3)'}">${f.ice_score||'—'}</div></td>
+                <td><div class="feat-num">${f.ease||'—'}</div></td>
+                <td><div class="feat-num">${f.impact||'—'}</div></td>
+                <td><span class="phase-badge ${f.phase==='MVP'?'phase-mvp':'phase-v2'}">${f.phase||'—'}</span></td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ GTM ══ -->
     <div class="brief-section" id="brief-gtm">
-      <div class="brief-section-header">
-        <div>
-          <div class="brief-section-title">Go-to-market</div>
-          <div class="brief-section-sub">Pricing · Channels · Launch strategy · Milestones</div>
+      <div class="brief-section-shell">
+        <div class="brief-section-header">
+          <div>
+            <div class="brief-section-eyebrow">05 / Go-to-Market</div>
+            <div class="brief-section-title">Launch Strategy</div>
+            <div class="brief-section-sub">Pricing · Channels · Milestones</div>
+          </div>
+          <button class="regen-btn">↻ Regen</button>
         </div>
-        <button class="regen-btn">↻ Regenerate</button>
+
+        <div class="gtm-grid">
+          <div class="gtm-card">
+            <div class="gtm-card-label">Primary channel</div>
+            <div class="gtm-card-content">${gtm.primary_channel||'—'}</div>
+          </div>
+          <div class="gtm-card">
+            <div class="gtm-card-label">Pricing model</div>
+            <div class="gtm-card-content">${gtm.pricing_model||'—'}</div>
+          </div>
+          <div class="gtm-card" style="grid-column:1/-1">
+            <div class="gtm-card-label">First 100 users</div>
+            <div class="gtm-card-content">${gtm.first_100_users||'—'}</div>
+          </div>
+          <div class="gtm-card" style="grid-column:1/-1">
+            <div class="gtm-card-label">Launch strategy</div>
+            <div class="gtm-card-content">${gtm.launch_strategy||'—'}</div>
+          </div>
+        </div>
+
+        <div class="section-subtitle">Tech stack</div>
+        <div class="tech-row">
+          <div class="tech-card">
+            <div class="tech-card-label">Frontend</div>
+            <div class="tech-card-val">${stack.frontend||'—'}</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card-label">Backend</div>
+            <div class="tech-card-val">${stack.backend||'—'}</div>
+          </div>
+          ${stack.infrastructure ? `
+          <div class="tech-card">
+            <div class="tech-card-label">Infrastructure</div>
+            <div class="tech-card-val">${stack.infrastructure}</div>
+          </div>` : ''}
+          ${(stack.key_integrations||[]).length ? `
+          <div class="tech-card">
+            <div class="tech-card-label">Key integrations</div>
+            <div class="tech-card-val">${stack.key_integrations.join(', ')}</div>
+          </div>` : ''}
+        </div>
+
+        <div class="section-subtitle">Launch milestones</div>
+        <div class="milestone-list">
+          ${(product.milestones||[]).map(m=>`
+            <div class="milestone-row">
+              <div class="milestone-week">${m.week}</div>
+              <div class="milestone-goal">${m.goal}</div>
+            </div>`).join('')}
+        </div>
       </div>
-      <div class="gtm-grid">
-        <div class="gtm-card">
-          <div class="gtm-card-label">Primary channel</div>
-          <div class="gtm-card-content">${product.go_to_market?.primary_channel||'—'}</div>
-        </div>
-        <div class="gtm-card">
-          <div class="gtm-card-label">Pricing model</div>
-          <div class="gtm-card-content">${product.go_to_market?.pricing_model||'—'}</div>
-        </div>
-        <div class="gtm-card" style="grid-column:1/-1">
-          <div class="gtm-card-label">First 100 users</div>
-          <div class="gtm-card-content">${product.go_to_market?.first_100_users||'—'}</div>
-        </div>
-        <div class="gtm-card" style="grid-column:1/-1">
-          <div class="gtm-card-label">Launch strategy</div>
-          <div class="gtm-card-content">${product.go_to_market?.launch_strategy||'—'}</div>
-        </div>
-      </div>
-      <div class="section-subtitle">Tech stack</div>
-      <div class="summary-grid">
-        <div class="summary-card">
-          <div class="summary-card-label">Frontend</div>
-          <div class="summary-card-text">${product.technical_stack?.frontend||'—'}</div>
-        </div>
-        <div class="summary-card">
-          <div class="summary-card-label">Backend</div>
-          <div class="summary-card-text">${product.technical_stack?.backend||'—'}</div>
-        </div>
-      </div>
-      <div class="section-subtitle">Launch milestones</div>
-      ${(product.milestones||[]).map(m=>`
-        <div class="milestone-row">
-          <div class="milestone-week">${m.week}</div>
-          <div class="milestone-goal">${m.goal}</div>
-        </div>`).join('')}
     </div>
 
-    <!-- EVAL -->
+    <!-- ══ EVAL ══ -->
     <div class="brief-section" id="brief-eval-brief">
-      <div class="brief-section-header">
-        <div>
-          <div class="brief-section-title">Eval scores</div>
-          <div class="brief-section-sub">Agent output quality · Automated grading rubric</div>
+      <div class="brief-section-shell">
+        <div class="brief-section-header">
+          <div>
+            <div class="brief-section-eyebrow">06 / Evaluation</div>
+            <div class="brief-section-title">Eval Scores</div>
+            <div class="brief-section-sub">Agent output quality · Automated grading rubric</div>
+          </div>
         </div>
+        ${renderEvalCards(evalScores)}
       </div>
-      ${renderEvalCards(evalScores)}
     </div>
   `;
 
@@ -1661,12 +2179,12 @@ function renderBrief(brief, evalScores) {
   }, 50);
 }
 
-function renderTAMCard(label, data, color) {
-  if (!data) return `<div class="tam-card"><div class="tam-label">${label}</div><div class="tam-value" style="color:${color}">—</div></div>`;
+function renderTAMCard(label, data) {
+  if (!data) return `<div class="tam-card"><div class="tam-label">${label}</div><div class="tam-value">—</div></div>`;
   return `
     <div class="tam-card">
       <div class="tam-label">${label}</div>
-      <div class="tam-value" style="color:${color}">${data.value||'—'}</div>
+      <div class="tam-value">${data.value||'—'}</div>
       <div class="tam-logic">${data.logic||''}</div>
     </div>`;
 }
@@ -1676,26 +2194,26 @@ function renderPersonaCard(p, i) {
   const interviews = (p.interview_insights||[]).map(qi=>`
     <div>
       <div class="interview-q">"${qi.question}"</div>
-      <div class="interview-a" style="margin-top:6px">${qi.answer}</div>
-    </div>`).join('<hr style="border:none;border-top:1px solid var(--border);margin:10px 0"/>');
+      <div class="interview-a">${qi.answer}</div>
+    </div>`).join('<hr style="border:none;border-top:1px solid rgba(255,255,255,0.05);margin:10px 0"/>');
   return `
     <div class="persona-card" style="animation-delay:${i*0.1}s">
       <div class="persona-header">
         <div class="persona-avatar av-${i}">${initials}</div>
         <div>
           <div class="persona-name">${p.name||'—'}</div>
-          <div class="persona-title">${p.title||''} · ${p.company_size||''}</div>
+          <div class="persona-title">${[p.title, p.company_size].filter(Boolean).join(' · ')}</div>
         </div>
       </div>
-      <span class="persona-archetype">${p.archetype||''}</span>
-      <div class="persona-bio">${p.bio||''}</div>
-      <div class="persona-quote">"${p.quote||''}"</div>
+      ${p.archetype ? `<span class="persona-archetype">${p.archetype}</span>` : ''}
+      ${p.bio ? `<div class="persona-bio">${p.bio}</div>` : ''}
+      ${p.quote ? `<div class="persona-quote">${p.quote}</div>` : ''}
       <div class="persona-pains">
         ${(p.frustrations||[]).slice(0,3).map(f=>`<div class="persona-pain">${f}</div>`).join('')}
       </div>
-      <div class="persona-wtp">Willingness to pay: ${p.willingness_to_pay||'—'}</div>
+      <div class="persona-wtp">${p.willingness_to_pay||'—'} / month</div>
       ${interviews ? `
-        <button class="interview-toggle" onclick="toggleInterview(this)">▶ View simulated interview</button>
+        <button class="interview-toggle" onclick="toggleInterview(this)">▶ &nbsp;View simulated interview</button>
         <div class="interview-block">${interviews}</div>` : ''}
     </div>`;
 }
@@ -1703,7 +2221,7 @@ function renderPersonaCard(p, i) {
 function toggleInterview(btn) {
   const block = btn.nextElementSibling;
   const open = block.classList.toggle('open');
-  btn.textContent = open ? '▼ Hide interview' : '▶ View simulated interview';
+  btn.textContent = open ? '▼   Hide interview' : '▶   View simulated interview';
 }
 
 function renderEvalCards(scores) {
@@ -1714,6 +2232,7 @@ function renderEvalCards(scores) {
       ${agents.map(a => {
         const s = scores[a];
         if (!s) return '';
+        const barColor = s.score>=80 ? '#34d399' : s.score>=60 ? '#a5b4fc' : '#f87171';
         return `
           <div class="eval-card">
             <div class="eval-agent-name">
@@ -1721,27 +2240,27 @@ function renderEvalCards(scores) {
               <div class="eval-grade grade-${s.grade}">${s.grade}</div>
             </div>
             <div class="eval-score-bar">
-              <div class="eval-score-fill" style="width:${s.score}%;background:${s.score>=80?'var(--green)':s.score>=60?'var(--blue)':'var(--red)'}"></div>
+              <div class="eval-score-fill" style="width:${s.score}%;background:${barColor}"></div>
             </div>
-            <div style="font-size:13px;color:var(--muted);margin-bottom:14px;font-family:var(--font-mono)">${s.score}/100</div>
+            <div class="eval-score-num">${s.score} / 100</div>
             <div class="eval-checks">
               ${Object.entries(s.checks||{}).map(([k,v])=>`
                 <div class="eval-check">
-                  <span class="check-icon ${v?'check-pass':'check-fail'}">${v?'✓':'×'}</span>
+                  <span class="check-icon ${v?'check-pass':'check-fail'}">${v?'✓':'○'}</span>
                   <span>${k.replace(/_/g,' ')}</span>
                 </div>`).join('')}
             </div>
           </div>`;
       }).join('')}
-      <div class="eval-card" style="background:var(--purple-light);border-color:var(--purple-mid)">
+      <div class="eval-card eval-card-overall">
         <div class="eval-agent-name">
           Overall
           <div class="eval-grade grade-${scores.overall?.grade||'B'}">${scores.overall?.grade||'B'}</div>
         </div>
         <div class="eval-score-bar">
-          <div class="eval-score-fill" style="width:${scores.overall?.score||0}%;background:var(--purple)"></div>
+          <div class="eval-score-fill" style="width:${scores.overall?.score||0}%;background:linear-gradient(90deg,#6366f1,#8b5cf6)"></div>
         </div>
-        <div style="font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--ink)">${scores.overall?.score||0}<span style="font-size:14px;color:var(--muted);font-family:var(--font)">/100</span></div>
+        <div class="eval-overall-score">${scores.overall?.score||0}<span class="eval-overall-denom">/100</span></div>
       </div>
     </div>`;
 }
